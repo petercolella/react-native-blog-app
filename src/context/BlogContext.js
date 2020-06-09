@@ -1,9 +1,12 @@
 import createDataContext from './createDataContext';
+import { nanoid } from 'nanoid/async/index.native';
 
-const blogReducer = (state, action) => {
+const blogReducer = async (state, action) => {
   switch (action.type) {
     case 'add_blogpost':
-      return [...state, { title: `Blog Post #${state.length + 1}` }];
+      const blog = { title: `Blog Post #${state.length + 1}` };
+      blog.id = await nanoid();
+      return [...state, blog];
     default:
       return state;
   }
