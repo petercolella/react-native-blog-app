@@ -22,8 +22,8 @@ const IndexScreen = () => {
         renderItem={({ item }) => {
           return (
             <View style={styles.row}>
-              <Text style={styles.title}>
-                {item.title} - {item.id}
+              <Text numberOfLines={1} style={styles.title}>
+                {item.title} - ID: {item.id}
               </Text>
               <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                 <Feather style={styles.icon} name="trash" />
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     padding: 15
   },
   title: {
+    flex: 1,
     fontSize: 18
   },
   icon: {
