@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import {
-  Button,
   Text,
   View,
   FlatList,
@@ -15,7 +14,12 @@ const IndexScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Button style={styles.button} title="Add Post" onPress={addBlogPost} />
+      <View style={styles.header}>
+        <Text>Blog List</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+          <Feather style={styles.icon} name="plus" />
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.title}
@@ -26,7 +30,7 @@ const IndexScreen = ({ navigation }) => {
             >
               <View style={styles.row}>
                 <Text numberOfLines={1} style={styles.title}>
-                  {item.title} - ID: {item.id}
+                  {item.title}/{item.content} - ID: {item.id}
                 </Text>
                 <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                   <Feather style={styles.icon} name="trash" />
@@ -43,6 +47,11 @@ const IndexScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     margin: 5
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15
   },
   row: {
     borderColor: 'gray',

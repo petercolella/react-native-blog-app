@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid/async/index.native';
 const blogReducer = async (state, action) => {
   switch (action.type) {
     case 'add_blogpost':
-      const blog = { title: `Blog Post #${state.length + 1}` };
+      const blog = action.payload;
       blog.id = await nanoid();
       return [...state, blog];
     case 'delete_blogpost':
@@ -15,8 +15,8 @@ const blogReducer = async (state, action) => {
 };
 
 const addBlogPost = dispatch => {
-  return () => {
-    dispatch({ type: 'add_blogpost' });
+  return post => {
+    dispatch({ type: 'add_blogpost', payload: post });
   };
 };
 
