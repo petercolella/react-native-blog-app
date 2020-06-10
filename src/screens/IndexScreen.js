@@ -16,9 +16,6 @@ const IndexScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text>Blog List</Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Create')}>
-          <Feather style={styles.icon} name="plus" />
-        </TouchableOpacity>
       </View>
       <FlatList
         data={state}
@@ -44,6 +41,16 @@ const IndexScreen = ({ navigation }) => {
   );
 };
 
+IndexScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate('Create')}>
+        <Feather style={styles.icon} name="plus" size={30} />
+      </TouchableOpacity>
+    )
+  };
+};
+
 const styles = StyleSheet.create({
   container: {
     margin: 5
@@ -66,7 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   icon: {
-    fontSize: 24
+    marginRight: 15
   }
 });
 
