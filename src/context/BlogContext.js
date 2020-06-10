@@ -15,8 +15,9 @@ const blogReducer = async (state, action) => {
 };
 
 const addBlogPost = dispatch => {
-  return post => {
+  return (post, cb) => {
     dispatch({ type: 'add_blogpost', payload: post });
+    cb();
   };
 };
 

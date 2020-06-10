@@ -14,9 +14,7 @@ const IndexScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text>Blog List</Text>
-      </View>
+      <Text style={styles.header}>Blog List:</Text>
       <FlatList
         data={state}
         keyExtractor={blogPost => blogPost.title}
@@ -56,9 +54,8 @@ const styles = StyleSheet.create({
     margin: 5
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 15
+    fontSize: 20,
+    marginBottom: 5
   },
   row: {
     borderColor: 'gray',

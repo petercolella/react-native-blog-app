@@ -2,17 +2,22 @@ import React, { useContext, useState } from 'react';
 import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
 import { Context } from '../context/BlogContext';
 
-const CreateScreen = () => {
+const CreateScreen = ({ navigation }) => {
   const { addBlogPost } = useContext(Context);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
+  const handleSubmit = () => {
+    addBlogPost({ title, content }, () => {
+      navigation.navigate('Index');
+    });
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Enter Title:</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          autoCapitalize="none"
           autoCorrect={false}
           style={styles.inputStyle}
           placeholder="Title"
@@ -23,7 +28,6 @@ const CreateScreen = () => {
       <Text style={styles.label}>Enter Content:</Text>
       <View style={styles.inputWrapper}>
         <TextInput
-          autoCapitalize="none"
           autoCorrect={false}
           style={styles.inputStyle}
           placeholder="Content"
@@ -32,10 +36,7 @@ const CreateScreen = () => {
         />
       </View>
       <View style={styles.buttonWrapper}>
-        <Button
-          title="Add Post"
-          onPress={() => addBlogPost({ title, content })}
-        />
+        <Button title="Add Blog Post" onPress={handleSubmit} />
       </View>
     </View>
   );
@@ -59,7 +60,8 @@ const styles = StyleSheet.create({
     height: 75
   },
   label: {
-    fontSize: 18
+    fontSize: 20,
+    marginBottom: 5
   }
 });
 
