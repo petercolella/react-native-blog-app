@@ -9,6 +9,7 @@ const EditScreen = ({ navigation }) => {
   const blogPost = state.find(
     blogPost => blogPost.id === navigation.getParam('id')
   );
+
   const [title, setTitle] = useState(blogPost.title);
   const [content, setContent] = useState(blogPost.content);
 
@@ -25,7 +26,6 @@ const EditScreen = ({ navigation }) => {
         <TextInput
           autoCorrect={false}
           style={styles.inputStyle}
-          placeholder="Title"
           value={title}
           onChangeText={setTitle}
         />
@@ -35,7 +35,6 @@ const EditScreen = ({ navigation }) => {
         <TextInput
           autoCorrect={false}
           style={styles.inputStyle}
-          placeholder="Content"
           value={content}
           onChangeText={setContent}
         />
