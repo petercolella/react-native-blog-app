@@ -9,6 +9,14 @@ const blogReducer = async (state, action) => {
       return [...state, blog];
     case 'delete_blogpost':
       return state.filter(blogPost => blogPost.id !== action.payload);
+    case 'edit_blogpost':
+      const post = action.payload;
+      return state.map(blogPost => {
+        if (blogPost.id === post.id) {
+          return post;
+        }
+        return blogPost;
+      });
     default:
       return state;
   }
@@ -27,8 +35,15 @@ const deleteBlogPost = dispatch => {
   };
 };
 
+const editBlogPost = dispatch => {
+  return (post, cb) => {
+    dispatch({ type: 'edit_blogpost', payload: post });
+    cb();
+  };
+};
+
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost },
+  { addBlogPost, deleteBlogPost, editBlogPost },
   []
 );
