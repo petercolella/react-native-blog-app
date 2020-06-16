@@ -10,7 +10,7 @@ const EditScreen = ({ navigation }) => {
 
   const handleSubmit = (title, content) => {
     editBlogPost({ title, content, id }, () => {
-      navigation.navigate('Index');
+      navigation.pop();
     });
   };
 
