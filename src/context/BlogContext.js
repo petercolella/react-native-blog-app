@@ -1,5 +1,6 @@
 import createDataContext from './createDataContext';
 import { nanoid } from 'nanoid/async/index.native';
+import jsonServer from '../api/jsonServer';
 
 const blogReducer = async (state, action) => {
   switch (action.type) {
@@ -14,9 +15,19 @@ const blogReducer = async (state, action) => {
       return state.map(blogPost => {
         return blogPost.id === post.id ? post : blogPost;
       });
+    case 'get_blogposts':
+      return action.payload;
     default:
       return state;
   }
+};
+
+const getBlogPosts = dispatch => {
+  return async () => {
+    const response = await jsonServer.get('/blogposts');
+
+    dispatch({ type: 'get_blogposts', payload: response.data });
+  };
 };
 
 const addBlogPost = dispatch => {
@@ -41,6 +52,6 @@ const editBlogPost = dispatch => {
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost, editBlogPost },
-  [{ title: 'Test Post', content: 'Test Content', id: 'test123' }]
+  { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts },
+  []
 );
