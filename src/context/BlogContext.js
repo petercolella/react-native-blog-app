@@ -5,9 +5,10 @@ import jsonServer from '../api/jsonServer';
 const blogReducer = async (state, action) => {
   switch (action.type) {
     case 'add_blogpost':
-      const blog = action.payload;
-      blog.id = await nanoid();
-      return [...state, blog];
+      // const blog = action.payload;
+      // blog.id = await nanoid();
+      // return [...state, blog];
+      return action.payload;
     case 'delete_blogpost':
       return state.filter(blogPost => blogPost.id !== action.payload);
     case 'edit_blogpost':
@@ -31,8 +32,11 @@ const getBlogPosts = dispatch => {
 };
 
 const addBlogPost = dispatch => {
-  return (post, cb) => {
-    dispatch({ type: 'add_blogpost', payload: post });
+  return async (post, cb) => {
+    const response = await jsonServer.post('/blogposts', post);
+    const state = await jsonServer.get('/blogposts');
+
+    dispatch({ type: 'add_blogpost', payload: state.data });
     if (cb) cb();
   };
 };
