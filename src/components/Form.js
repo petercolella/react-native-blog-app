@@ -1,14 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Text, TextInput, View, StyleSheet } from 'react-native';
 
-const Form = ({
-  title,
-  setTitle,
-  content,
-  setContent,
-  buttonTitle,
-  handleSubmit
-}) => {
+const Form = ({ initialValue, buttonTitle, handleSubmit }) => {
+  const [title, setTitle] = useState(initialValue.title);
+  const [content, setContent] = useState(initialValue.content);
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Title:</Text>
@@ -32,10 +28,20 @@ const Form = ({
         />
       </View>
       <View style={styles.buttonWrapper}>
-        <Button title={buttonTitle} onPress={handleSubmit} />
+        <Button
+          title={buttonTitle}
+          onPress={() => handleSubmit(title, content)}
+        />
       </View>
     </View>
   );
+};
+
+Form.defaultProps = {
+  initialValue: {
+    title: '',
+    content: ''
+  }
 };
 
 const styles = StyleSheet.create({
