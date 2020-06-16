@@ -12,10 +12,7 @@ const blogReducer = async (state, action) => {
     case 'edit_blogpost':
       const post = action.payload;
       return state.map(blogPost => {
-        if (blogPost.id === post.id) {
-          return post;
-        }
-        return blogPost;
+        return blogPost.id === post.id ? post : blogPost;
       });
     default:
       return state;
@@ -25,7 +22,7 @@ const blogReducer = async (state, action) => {
 const addBlogPost = dispatch => {
   return (post, cb) => {
     dispatch({ type: 'add_blogpost', payload: post });
-    cb();
+    if (cb) cb();
   };
 };
 
@@ -38,7 +35,7 @@ const deleteBlogPost = dispatch => {
 const editBlogPost = dispatch => {
   return (post, cb) => {
     dispatch({ type: 'edit_blogpost', payload: post });
-    cb();
+    if (cb) cb();
   };
 };
 
