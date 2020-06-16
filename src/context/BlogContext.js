@@ -10,7 +10,8 @@ const blogReducer = async (state, action) => {
       // return [...state, blog];
       return action.payload;
     case 'delete_blogpost':
-      return state.filter(blogPost => blogPost.id !== action.payload);
+      // return state.filter(blogPost => blogPost.id !== action.payload);
+      return action.payload;
     case 'edit_blogpost':
       const post = action.payload;
       return state.map(blogPost => {
@@ -42,8 +43,11 @@ const addBlogPost = dispatch => {
 };
 
 const deleteBlogPost = dispatch => {
-  return id => {
-    dispatch({ type: 'delete_blogpost', payload: id });
+  return async id => {
+    const response = await jsonServer.delete(`/blogposts/${id}`);
+    const state = await jsonServer.get('/blogposts');
+
+    dispatch({ type: 'delete_blogpost', payload: state.data });
   };
 };
 
