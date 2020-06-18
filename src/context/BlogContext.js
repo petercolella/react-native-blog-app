@@ -4,19 +4,6 @@ import jsonServer from '../api/jsonServer';
 
 const blogReducer = async (state, action) => {
   switch (action.type) {
-    case 'add_blogpost':
-      // const blog = action.payload;
-      // blog.id = await nanoid();
-      // return [...state, blog];
-      return action.payload;
-    case 'delete_blogpost':
-      // return state.filter(blogPost => blogPost.id !== action.payload);
-      return action.payload;
-    case 'edit_blogpost':
-      const post = action.payload;
-      return state.map(blogPost => {
-        return blogPost.id === post.id ? post : blogPost;
-      });
     case 'get_blogposts':
       return action.payload;
     default:
@@ -34,26 +21,25 @@ const getBlogPosts = dispatch => {
 
 const addBlogPost = dispatch => {
   return async (post, cb) => {
-    const response = await jsonServer.post('/blogposts', post);
-    const state = await jsonServer.get('/blogposts');
+    await jsonServer.post('/blogposts', post);
 
-    dispatch({ type: 'add_blogpost', payload: state.data });
     if (cb) cb();
   };
 };
 
 const deleteBlogPost = dispatch => {
   return async id => {
-    const response = await jsonServer.delete(`/blogposts/${id}`);
-    const state = await jsonServer.get('/blogposts');
+    await jsonServer.delete(`/blogposts/${id}`);
+    const response = await jsonServer.get('/blogposts');
 
-    dispatch({ type: 'delete_blogpost', payload: state.data });
+    dispatch({ type: 'get_blogposts', payload: response.data });
   };
 };
 
 const editBlogPost = dispatch => {
-  return (post, cb) => {
-    dispatch({ type: 'edit_blogpost', payload: post });
+  return async (post, cb) => {
+    await jsonServer.put(`/blogposts/${post.id}`, post);
+
     if (cb) cb();
   };
 };

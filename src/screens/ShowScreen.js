@@ -1,10 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { Context } from '../context/BlogContext';
 import { Feather } from '@expo/vector-icons';
 
 const ShowScreen = ({ navigation }) => {
-  const { state } = useContext(Context);
+  const { state, getBlogPosts } = useContext(Context);
+
+  useEffect(() => {
+    const listener = navigation.addListener('didFocus', () => {
+      getBlogPosts();
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
 
   const blogPost = state.find(
     blogPost => blogPost.id === navigation.getParam('id')
